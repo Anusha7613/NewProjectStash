@@ -6,21 +6,25 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NewProjectStash.Models;
+using NewProjectStash.Repositories;
 
 namespace NewProjectStash.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IProductRepository _productRepos;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IProductRepository productRepository)
         {
             _logger = logger;
+            _productRepos = productRepository;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var products = _productRepos.GetProducts();
+            return View(products);
         }
 
         public IActionResult Privacy()
